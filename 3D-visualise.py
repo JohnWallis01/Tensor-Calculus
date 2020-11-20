@@ -18,7 +18,13 @@ x = u*np.sin(v)
 y = u*np.cos(v)
 z = np.exp(-u)
 
+#exotic surface
+x = u*np.cos(v)
+y = u*np.sin(v)
+z = np.sin(u)*np.sin(v)
+
+
 fig,axes = plt.subplots(subplot_kw=dict(projection='3d'))
 ax = axes
-ax.plot_wireframe(x, y, z)
+ax.plot_surface(x, y, z)
 plt.show()

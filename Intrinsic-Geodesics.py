@@ -15,15 +15,15 @@ c = Array([u,v])
 
 # Map to Space
 
-#sphere
-X = cos(v)*sin(u)
-Y = sin(v)*sin(u)
-Z = cos(u)
+# #sphere
+# X = cos(v)*sin(u)
+# Y = sin(v)*sin(u)
+# Z = cos(u)
 
-# #plane
-# X = u
-# Y = v
-# Z = 0
+#plane
+X = u
+Y = v
+Z = 0
 
 # # exotic surface
 # X = u*cos(v)
@@ -110,7 +110,7 @@ for i in range(len(c)):
 
 
 #diff eq solver
-Initial_Conditions = [[np.array([np.pi/2,np.pi/2]),np.array([0.0,3.0])],[np.array([1.0,1.0]),np.array([-0.6,-0.3])]] #(R,Rp)
+Initial_Conditions = [[np.array([np.pi/2,np.pi/2]),np.array([0.1,3.0])],[np.array([1.89999,1.2]),np.array([-0.4,0.2])]] #(R,Rp)
 D3Paths = []
 
 
@@ -128,7 +128,7 @@ def y(u,v):
 def z(u,v):
     return np.cos(u)
 
-# #hump looking thing
+#hump looking thing
 # def x(u,v):
 #     return u*np.sin(v)
 # def y(u,v):
@@ -136,7 +136,13 @@ def z(u,v):
 # def z(u,v):
 #     return np.exp(-u)
 
-
+# #exotic surface
+# def x(u,v):
+#     return u*np.cos(v)
+# def y(u,v):
+#     return u*np.sin(v)
+# def z(u,v):
+#     return np.sin(u)*np.sin(v)
 
 
 
@@ -147,7 +153,7 @@ ax = fig.add_subplot(111)
 for condition in Initial_Conditions:
     Path = []
     delta = 0.01
-    for i in range(500):
+    for i in range(5000):
         # print(R)
         Path.append(condition[0].copy())
         for c in range(len(second_Ds)):
@@ -155,8 +161,8 @@ for condition in Initial_Conditions:
             # print(Rp)
         condition[0] += condition[1]*delta
     Path = np.array(Path)
-    # plt.plot(Path.T[0],Path.T[1])
-    plt.polar(Path.T[1],Path.T[0])
+    plt.plot(Path.T[0],Path.T[1])
+    # plt.polar(Path.T[1],Path.T[0])
     D3Paths.append([x(Path.T[0],Path.T[1]),y(Path.T[0],Path.T[1]),z(Path.T[0],Path.T[1])])
     ax.set_aspect('equal')
 plt.show()
