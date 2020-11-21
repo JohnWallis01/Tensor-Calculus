@@ -15,15 +15,20 @@ c = Array([u,v])
 
 # Map to Space
 
+#these work best when Z = f(x,y)
+
 # #sphere
 # X = cos(v)*sin(u)
 # Y = sin(v)*sin(u)
 # Z = cos(u)
 
-#plane
-X = u
-Y = v
-Z = 0
+
+
+
+# #plane
+# X = u
+# Y = v
+# Z = 0
 
 # # exotic surface
 # X = u*cos(v)
@@ -34,6 +39,18 @@ Z = 0
 # X = u*sin(v)
 # Y = u*cos(v)
 # Z = exp(-u)
+
+# #Torus
+#
+# X = (2+1*cos(u))*cos(v)
+# Y = (2+1*cos(u))*sin(v)
+# Z = 1*sin(u)
+
+
+#saddle
+X = u
+Y = v
+Z = (u*u -v*v)/50
 
 
 
@@ -109,16 +126,8 @@ for i in range(len(c)):
     second_Ds.append(lambdify((u,v,u.diff(t),v.diff(t)),solve(eqs[i],c[i].diff(t,2))))
 
 
-#diff eq solver
-Initial_Conditions = [[np.array([np.pi/2,np.pi/2]),np.array([0.1,3.0])],[np.array([1.89999,1.2]),np.array([-0.4,0.2])]] #(R,Rp)
-D3Paths = []
 
 
-N=50
-
-u = np.linspace(0, 10, N)
-v = np.linspace(-10, 10, N)
-u,v = np.meshgrid(u,v)
 
 #visulisation for a sphere
 def x(u,v):
@@ -144,10 +153,36 @@ def z(u,v):
 # def z(u,v):
 #     return np.sin(u)*np.sin(v)
 
+# #Torus
+#
+# def x(u,v):
+#      return (2+1*np.cos(u))*np.cos(v)
+# def y(u,v):
+#      return (2+1*np.cos(u))*np.sin(v)
+# def z(u,v):
+#      return 1*np.sin(u)
+
+#saddle
+
+def x(u,v):
+    return u
+def y(u,v):
+    return v
+def z(u,v):
+    return (u*u -v*v)/50
 
 
+N=50
+
+u = np.linspace(-10, 10, N)
+v = np.linspace(-10, 10, N)
+u,v = np.meshgrid(u,v)
 
 
+Initial_Conditions = [[np.array([np.pi/2,np.pi/2]),np.array([0.1,0.3])],[np.array([0.1,0.2]),np.array([-0.4,0.2])]] #(R,Rp) #maybe normalise the rp vectors
+D3Paths = []
+
+#diff eq solver
 fig = plt.figure()
 ax = fig.add_subplot(111)
 for condition in Initial_Conditions:
@@ -173,4 +208,6 @@ ax = axes
 ax.plot_wireframe(x(u,v), y(u,v), z(u,v),color=(0,1,0,0.15))
 for Path in D3Paths:
     ax.plot(Path[0],Path[1],Path[2])
+
+
 plt.show()
