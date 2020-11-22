@@ -228,7 +228,7 @@ def y(u,v):
 def z(u,v):
     return u*np.cos(v/2)
 def boundary(condition):
-    if condition[0][0] > 0.5 or condition[0][0] < -0.5 or condition[0][1] > np.pi*2 or condition[0][1] < 0:
+    if condition[0][0] > 0.5 or condition[0][0] < -0.5: #or condition[0][1] > np.pi*2 or condition[0][1] < 0:
         return True
     else:
         return False

@@ -8,7 +8,7 @@ N=50
 
 
 
-u = np.linspace(-0.5, 0.5, N)
+u = np.linspace(-1, 1, N)
 v = np.linspace(0, 2*np.pi, N)
 u,v = np.meshgrid(u,v)
 
@@ -21,11 +21,11 @@ u,v = np.meshgrid(u,v)
 # y = np.sin(v)*np.sin(u)
 # z = np.cos(u)
 
-#recangular sphere
-
-x = u
-y = v
-z = np.sqrt(1-x**2-y**2)
+# #recangular sphere
+#
+# x = u
+# y = v
+# z = np.sqrt(1-x**2-y**2)
 
 
 
@@ -52,11 +52,11 @@ z = np.sqrt(1-x**2-y**2)
 # y = v
 # z = (u*u -v*v)/50
 
-# #mobeius strip
-#
-# x = (1-u*np.sin(v/2))*np.cos(v)
-# y = (1-u*np.sin(v/2))*np.sin(v)
-# z = u*np.cos(v/2)
+#mobeius strip
+
+x = (1-u*np.sin(v/2))*np.cos(v)
+y = (1-u*np.sin(v/2))*np.sin(v)
+z = u*np.cos(v/2)
 
 
 
