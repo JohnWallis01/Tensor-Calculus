@@ -8,8 +8,8 @@ N=50
 
 
 
-u = np.linspace(0, 10, N)
-v = np.linspace(0, 10, N)
+u = np.linspace(-1, 1, N)
+v = np.linspace(-1, 1, N)
 u,v = np.meshgrid(u,v)
 
 
@@ -25,7 +25,7 @@ u,v = np.meshgrid(u,v)
 
 x = u
 y = v
-z = np.sqrt(200-x**2-y**2)
+z = np.sqrt(1-x**2-y**2)
 
 
 

@@ -24,6 +24,13 @@ c = Array([u,v])
 
 
 
+#recangular sphere
+#limit of [-1,1]
+# X = u
+# Y = v
+# Z = sqrt(2-u**2-v**2)
+
+
 
 # #plane
 # X = u
@@ -40,17 +47,17 @@ c = Array([u,v])
 # Y = u*cos(v)
 # Z = exp(-u)
 
-# #Torus
-#
-# X = (2+1*cos(u))*cos(v)
-# Y = (2+1*cos(u))*sin(v)
-# Z = 1*sin(u)
+#Torus
+
+X = (2+1*cos(u))*cos(v)
+Y = (2+1*cos(u))*sin(v)
+Z = 1*sin(u)
 
 
-#saddle
-X = u
-Y = v
-Z = (u*u -v*v)/50
+# #saddle
+# X = u
+# Y = v
+# Z = (u*u -v*v)/50
 
 
 
@@ -80,6 +87,7 @@ G = Matrix(G)
 G = simplify(G)
 G_I = G.inv()
 
+pprint(G,use_unicode=False)
 
 
 #velcocity_acceleration dots (PR/PU dot PR2/PU2 ect.)    [c1,c2] c1 = [[]]
@@ -129,13 +137,32 @@ for i in range(len(c)):
 
 
 
-#visulisation for a sphere
-def x(u,v):
-     return np.cos(v)*np.sin(u)
-def y(u,v):
-    return np.sin(v)*np.sin(u)
-def z(u,v):
-    return np.cos(u)
+# #visulisation for a sphere
+# def x(u,v):
+#      return np.cos(v)*np.sin(u)
+# def y(u,v):
+#     return np.sin(v)*np.sin(u)
+# def z(u,v):
+#     return np.cos(u)
+# def boundary(condition):
+#     return False
+
+
+#recangular sphere
+
+# def x(u,v):
+#     return u
+# def y(u,v):
+#     return v
+# def z(u,v):
+#     return np.sqrt(2-u**2-v**2)
+# def boundary(condition):
+#     if condition[0][0]**2 + condition[0][1]**2 > 2:
+#         return True
+#     else:
+#         return False
+
+
 
 #hump looking thing
 # def x(u,v):
@@ -144,6 +171,8 @@ def z(u,v):
 #     return u*np.cos(v)
 # def z(u,v):
 #     return np.exp(-u)
+# def boundary(condition):
+#     return False
 
 # #exotic surface
 # def x(u,v):
@@ -152,24 +181,33 @@ def z(u,v):
 #     return u*np.sin(v)
 # def z(u,v):
 #     return np.sin(u)*np.sin(v)
+# def boundary(condition):
+#     return False
 
-# #Torus
-#
-# def x(u,v):
-#      return (2+1*np.cos(u))*np.cos(v)
-# def y(u,v):
-#      return (2+1*np.cos(u))*np.sin(v)
-# def z(u,v):
-#      return 1*np.sin(u)
-
-#saddle
+#Torus
 
 def x(u,v):
-    return u
+     return (2+1*np.cos(u))*np.cos(v)
 def y(u,v):
-    return v
+     return (2+1*np.cos(u))*np.sin(v)
 def z(u,v):
-    return (u*u -v*v)/50
+     return 1*np.sin(u)
+def boundary(condition):
+    return False
+
+# #saddle
+#
+# def x(u,v):
+#     return u
+# def y(u,v):
+#     return v
+# def z(u,v):
+#     return (u*u -v*v)/50
+# def boundary(condition):
+#     if condition[0][0]**2 + condition[0][1]**2 > 100:
+#         return True
+#     else:
+#         return False
 
 
 N=50
@@ -179,7 +217,7 @@ v = np.linspace(-10, 10, N)
 u,v = np.meshgrid(u,v)
 
 
-Initial_Conditions = [[np.array([np.pi/2,np.pi/2]),np.array([0.1,0.3])],[np.array([0.1,0.2]),np.array([-0.4,0.2])]] #(R,Rp) #maybe normalise the rp vectors
+Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.1,0.3])],[np.array([0.1,0.2]),np.array([-0.4,0.2])]] #(R,Rp) #maybe normalise the rp vectors
 D3Paths = []
 
 #diff eq solver
@@ -195,11 +233,16 @@ for condition in Initial_Conditions:
             condition[1][c] += delta*second_Ds[c](condition[0][0],condition[0][1],condition[1][0],condition[1][1])[0]
             # print(Rp)
         condition[0] += condition[1]*delta
+        if boundary(condition):
+            break
     Path = np.array(Path)
     plt.plot(Path.T[0],Path.T[1])
     # plt.polar(Path.T[1],Path.T[0])
     D3Paths.append([x(Path.T[0],Path.T[1]),y(Path.T[0],Path.T[1]),z(Path.T[0],Path.T[1])])
     ax.set_aspect('equal')
+
+# circle=plt.Circle((0,0),np.sqrt(2),color=(0.3,0,0,0.2))
+# ax.add_artist(circle)
 plt.show()
 
 
