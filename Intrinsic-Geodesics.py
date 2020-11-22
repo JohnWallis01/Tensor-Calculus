@@ -47,17 +47,26 @@ c = Array([u,v])
 # Y = u*cos(v)
 # Z = exp(-u)
 
-#Torus
-
-X = (2+1*cos(u))*cos(v)
-Y = (2+1*cos(u))*sin(v)
-Z = 1*sin(u)
+# #Torus
+#
+# X = (2+1*cos(u))*cos(v)
+# Y = (2+1*cos(u))*sin(v)
+# Z = 1*sin(u)
 
 
 # #saddle
 # X = u
 # Y = v
 # Z = (u*u -v*v)/50
+
+
+#mobeius strip
+
+X = (1-u*sin(v/2))*cos(v)
+Y = (1-u*sin(v/2))*sin(v)
+Z = u*cos(v/2)
+
+
 
 
 
@@ -184,16 +193,16 @@ for i in range(len(c)):
 # def boundary(condition):
 #     return False
 
-#Torus
-
-def x(u,v):
-     return (2+1*np.cos(u))*np.cos(v)
-def y(u,v):
-     return (2+1*np.cos(u))*np.sin(v)
-def z(u,v):
-     return 1*np.sin(u)
-def boundary(condition):
-    return False
+# #Torus
+#
+# def x(u,v):
+#      return (2+1*np.cos(u))*np.cos(v)
+# def y(u,v):
+#      return (2+1*np.cos(u))*np.sin(v)
+# def z(u,v):
+#      return 1*np.sin(u)
+# def boundary(condition):
+#     return False
 
 # #saddle
 #
@@ -210,20 +219,37 @@ def boundary(condition):
 #         return False
 
 
+#mobeius strip
+
+def x(u,v):
+    return (1-u*np.sin(v/2))*np.cos(v)
+def y(u,v):
+    return (1-u*np.sin(v/2))*np.sin(v)
+def z(u,v):
+    return u*np.cos(v/2)
+def boundary(condition):
+    if condition[0][0] > 0.5 or condition[0][0] < -0.5 or condition[0][1] > np.pi*2 or condition[0][1] < 0:
+        return True
+    else:
+        return False
+
+
+
+
 N=50
 
-u = np.linspace(-10, 10, N)
-v = np.linspace(-10, 10, N)
+u = np.linspace(-0.5, 0.5, N)
+v = np.linspace(0, np.pi*2, N)
 u,v = np.meshgrid(u,v)
 
 
-Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.1,0.3])],[np.array([0.1,0.2]),np.array([-0.4,0.2])]] #(R,Rp) #maybe normalise the rp vectors
+Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.0,0.1])],[np.array([0.1,0.2]),np.array([-0.4,0.2])]] #(R,Rp) #maybe normalise the rp vectors
 D3Paths = []
 
 #diff eq solver
 fig = plt.figure()
 ax = fig.add_subplot(111)
-for condition in Initial_Conditions[0:1]:
+for condition in Initial_Conditions:
     Path = []
     delta = 0.01
     for i in range(5000):
