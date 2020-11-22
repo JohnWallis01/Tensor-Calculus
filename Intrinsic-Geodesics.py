@@ -40,17 +40,17 @@ c = Array([u,v])
 # Y = u*cos(v)
 # Z = exp(-u)
 
-# #Torus
-#
-# X = (2+1*cos(u))*cos(v)
-# Y = (2+1*cos(u))*sin(v)
-# Z = 1*sin(u)
+#Torus
+
+X = (10+1*cos(u))*cos(v)
+Y = (10+1*cos(u))*sin(v)
+Z = 1*sin(u)
 
 
-#saddle
-X = u
-Y = v
-Z = (u*u -v*v)/50
+# #saddle
+# X = u
+# Y = v
+# Z = (u*u -v*v)/50
 
 
 
@@ -129,13 +129,13 @@ for i in range(len(c)):
 
 
 
-#visulisation for a sphere
-def x(u,v):
-     return np.cos(v)*np.sin(u)
-def y(u,v):
-    return np.sin(v)*np.sin(u)
-def z(u,v):
-    return np.cos(u)
+# #visulisation for a sphere
+# def x(u,v):
+#      return np.cos(v)*np.sin(u)
+# def y(u,v):
+#     return np.sin(v)*np.sin(u)
+# def z(u,v):
+#     return np.cos(u)
 
 #hump looking thing
 # def x(u,v):
@@ -153,23 +153,23 @@ def z(u,v):
 # def z(u,v):
 #     return np.sin(u)*np.sin(v)
 
-# #Torus
-#
-# def x(u,v):
-#      return (2+1*np.cos(u))*np.cos(v)
-# def y(u,v):
-#      return (2+1*np.cos(u))*np.sin(v)
-# def z(u,v):
-#      return 1*np.sin(u)
-
-#saddle
+#Torus
 
 def x(u,v):
-    return u
+     return (10+1*np.cos(u))*np.cos(v)
 def y(u,v):
-    return v
+     return (10+1*np.cos(u))*np.sin(v)
 def z(u,v):
-    return (u*u -v*v)/50
+     return 1*np.sin(u)
+
+# #saddle
+#
+# def x(u,v):
+#     return u
+# def y(u,v):
+#     return v
+# def z(u,v):
+#     return (u*u -v*v)/50
 
 
 N=50
@@ -185,7 +185,7 @@ D3Paths = []
 #diff eq solver
 fig = plt.figure()
 ax = fig.add_subplot(111)
-for condition in Initial_Conditions:
+for condition in Initial_Conditions[0:1]:
     Path = []
     delta = 0.01
     for i in range(5000):
@@ -208,6 +208,16 @@ ax = axes
 ax.plot_wireframe(x(u,v), y(u,v), z(u,v),color=(0,1,0,0.15))
 for Path in D3Paths:
     ax.plot(Path[0],Path[1],Path[2])
+
+max_range = np.array([x(u,v).max()-x(u,v).min(), y(u,v).max()-y(u,v).min(), z(u,v).max()-z(u,v).min()]).max() / 2.0
+
+mid_x = (x(u,v).max()+x(u,v).min()) * 0.5
+mid_y = (y(u,v).max()+y(u,v).min()) * 0.5
+mid_z = (z(u,v).max()+z(u,v).min()) * 0.5
+ax.set_xlim(mid_x - max_range, mid_x + max_range)
+ax.set_ylim(mid_y - max_range, mid_y + max_range)
+ax.set_zlim(mid_z - max_range, mid_z + max_range)
+
 
 
 plt.show()
