@@ -14,8 +14,8 @@ v = Function('v')(t)
 
 c = Array([u,v])
 
-Geometery = Exotic_Map()
-Visulisation = Exotic_Map()
+Geometery = Singularity_Map()
+Visulisation = Singularity_Map()
 X= Geometery.X
 Y= Geometery.Y
 Z= Geometery.Z
@@ -42,6 +42,9 @@ for c1 in PR_PC:
     for c2 in PR_PC:
         R.append(c1.dot(c2))
     G.append(R)
+
+
+
 G = Matrix(G)
 G = simplify(G)
 G_I = G.inv()
@@ -103,7 +106,7 @@ v = Visulisation.c2
 u,v = np.meshgrid(u,v)
 
 
-Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.2,0.1])],[np.array([1.0,4.0]),np.array([-0.2,0.2])]] #(R,Rp) #maybe normalise the rp vectors
+Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.2,0.1])],[np.array([1.0,0.5]),np.array([-0.85,-0.5])]] #(R,Rp) #maybe normalise the rp vectors
 D3Paths = []
 
 #diff eq solver

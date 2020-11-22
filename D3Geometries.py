@@ -88,7 +88,7 @@ class Exotic_Map():
             return True
         else:
             return False
-            
+
 class Hump_Map():
     """docstring for Exotic_Map."""
 
@@ -170,6 +170,51 @@ class Mobeius_Map(object):
         return u*np.cos(v/2)
     def boundary(self,condition):
         if condition[0][0] > 0.5 or condition[0][0] < -0.5: #or condition[0][1] > np.pi*2 or condition[0][1] < 0:
+            return True
+        else:
+            return False
+
+class Hyperboloid_Map(object):
+    """docstring for Torus."""
+
+    def __init__(self):
+        super(Hyperboloid_Map, self).__init__()
+        self.X = sqrt(1+u**2)*cos(v)
+        self.Y = sqrt(1+u**2)*sin(v)
+        self.Z = u
+        self.c1 = np.linspace(-3,3,N)
+        self.c2 = np.linspace(0,np.pi*2,N)
+    def x(self,u,v):
+         return np.sqrt(1+u**2)*np.cos(v)
+    def y(self,u,v):
+         return np.sqrt(1+u**2)*np.sin(v)
+    def z(self,u,v):
+         return u
+    def boundary(self,condition):
+        if condition[0][0] > 3 or condition[0][0] < -3: #or condition[0][1] > np.pi*2 or condition[0][1] < 0:
+            return True
+        else:
+            return False
+
+
+class Singularity_Map(object):
+    """docstring for Torus."""
+
+    def __init__(self):
+        super(Singularity_Map, self).__init__()
+        self.X = u
+        self.Y = v
+        self.Z = -1/sqrt(u**2+v**2)
+        self.c1 = np.linspace(-3,3,N)
+        self.c2 = np.linspace(-3,3,N)
+    def x(self,u,v):
+         return u
+    def y(self,u,v):
+         return v
+    def z(self,u,v):
+         return -1/np.sqrt(u**2+v**2)
+    def boundary(self,condition):
+        if condition[0][0] > 3 or condition[0][0] < -3 or condition[0][1] > 3 or condition[0][1] < -3:
             return True
         else:
             return False
