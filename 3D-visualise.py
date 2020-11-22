@@ -1,62 +1,22 @@
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import pyplot as plt
 import numpy as np
+from D3Geometries import *
 # surface visulisation
 N=50
 
 
+Graph = Sphere_Map()
 
 
-
-u = np.linspace(-1, 1, N)
-v = np.linspace(0, 2*np.pi, N)
+u = Graph.c1
+v = Graph.c2
 u,v = np.meshgrid(u,v)
 
 
-
-
-
-# #sphere
-# x = np.cos(v)*np.sin(u)
-# y = np.sin(v)*np.sin(u)
-# z = np.cos(u)
-
-# #recangular sphere
-#
-# x = u
-# y = v
-# z = np.sqrt(1-x**2-y**2)
-
-
-
-# #Torus
-#
-# x = (2+1*np.cos(u))*np.cos(v)
-# y = (2+1*np.cos(u))*np.sin(v)
-# z = 1*np.sin(u)
-
-
-# #hump looking thing
-# x = u*np.sin(v)
-# y = u*np.cos(v)
-# z = np.exp(-u)
-#
-# #exotic surface
-# x = u*np.cos(v)
-# y = u*np.sin(v)
-# z = np.sin(u)*np.sin(v)
-
-# #saddle
-#
-# x = u
-# y = v
-# z = (u*u -v*v)/50
-
-#mobeius strip
-
-x = (1-u*np.sin(v/2))*np.cos(v)
-y = (1-u*np.sin(v/2))*np.sin(v)
-z = u*np.cos(v/2)
+x = Graph.x(u,v)
+y = Graph.y(u,v)
+z = Graph.z(u,v)
 
 
 

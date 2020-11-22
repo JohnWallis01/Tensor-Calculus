@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import pyplot as plt
 import numpy as np
+from D3Geometries import *
 
 
 N = CoordSys3D("N")
@@ -13,62 +14,11 @@ v = Function('v')(t)
 
 c = Array([u,v])
 
-# Map to Space
-
-#these work best when Z = f(x,y)
-
-# #sphere
-# X = cos(v)*sin(u)
-# Y = sin(v)*sin(u)
-# Z = cos(u)
-
-
-
-#recangular sphere
-#limit of [-1,1]
-# X = u
-# Y = v
-# Z = sqrt(2-u**2-v**2)
-
-
-
-# #plane
-# X = u
-# Y = v
-# Z = 0
-
-# # exotic surface
-# X = u*cos(v)
-# Y = u*sin(v)
-# Z = sin(u)*sin(v)
-
-# #hump looking thing
-# X = u*sin(v)
-# Y = u*cos(v)
-# Z = exp(-u)
-
-# #Torus
-#
-# X = (2+1*cos(u))*cos(v)
-# Y = (2+1*cos(u))*sin(v)
-# Z = 1*sin(u)
-
-
-# #saddle
-# X = u
-# Y = v
-# Z = (u*u -v*v)/50
-
-
-#mobeius strip
-
-X = (1-u*sin(v/2))*cos(v)
-Y = (1-u*sin(v/2))*sin(v)
-Z = u*cos(v/2)
-
-
-
-
+Geometery = Exotic_Map()
+Visulisation = Exotic_Map()
+X= Geometery.X
+Y= Geometery.Y
+Z= Geometery.Z
 
 PR_PC = []
 for coord in c:
@@ -143,107 +93,17 @@ for i in range(len(c)):
     second_Ds.append(lambdify((u,v,u.diff(t),v.diff(t)),solve(eqs[i],c[i].diff(t,2))))
 
 
+x = Visulisation.x
+y = Visulisation.y
+z = Visulisation.z
+boundary = Visulisation.boundary
 
-
-
-# #visulisation for a sphere
-# def x(u,v):
-#      return np.cos(v)*np.sin(u)
-# def y(u,v):
-#     return np.sin(v)*np.sin(u)
-# def z(u,v):
-#     return np.cos(u)
-# def boundary(condition):
-#     return False
-
-
-#recangular sphere
-
-# def x(u,v):
-#     return u
-# def y(u,v):
-#     return v
-# def z(u,v):
-#     return np.sqrt(2-u**2-v**2)
-# def boundary(condition):
-#     if condition[0][0]**2 + condition[0][1]**2 > 2:
-#         return True
-#     else:
-#         return False
-
-
-
-#hump looking thing
-# def x(u,v):
-#     return u*np.sin(v)
-# def y(u,v):
-#     return u*np.cos(v)
-# def z(u,v):
-#     return np.exp(-u)
-# def boundary(condition):
-#     return False
-
-# #exotic surface
-# def x(u,v):
-#     return u*np.cos(v)
-# def y(u,v):
-#     return u*np.sin(v)
-# def z(u,v):
-#     return np.sin(u)*np.sin(v)
-# def boundary(condition):
-#     return False
-
-# #Torus
-#
-# def x(u,v):
-#      return (2+1*np.cos(u))*np.cos(v)
-# def y(u,v):
-#      return (2+1*np.cos(u))*np.sin(v)
-# def z(u,v):
-#      return 1*np.sin(u)
-# def boundary(condition):
-#     return False
-
-# #saddle
-#
-# def x(u,v):
-#     return u
-# def y(u,v):
-#     return v
-# def z(u,v):
-#     return (u*u -v*v)/50
-# def boundary(condition):
-#     if condition[0][0]**2 + condition[0][1]**2 > 100:
-#         return True
-#     else:
-#         return False
-
-
-#mobeius strip
-
-def x(u,v):
-    return (1-u*np.sin(v/2))*np.cos(v)
-def y(u,v):
-    return (1-u*np.sin(v/2))*np.sin(v)
-def z(u,v):
-    return u*np.cos(v/2)
-def boundary(condition):
-    if condition[0][0] > 0.5 or condition[0][0] < -0.5: #or condition[0][1] > np.pi*2 or condition[0][1] < 0:
-        return True
-    else:
-        return False
-
-
-
-
-N=50
-
-u = np.linspace(-0.5, 0.5, N)
-v = np.linspace(0, np.pi*2, N)
+u = Visulisation.c1
+v = Visulisation.c2
 u,v = np.meshgrid(u,v)
 
 
-Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.0,0.1])],[np.array([0.1,0.2]),np.array([-0.4,0.2])]] #(R,Rp) #maybe normalise the rp vectors
+Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.2,0.1])],[np.array([1.0,4.0]),np.array([-0.2,0.2])]] #(R,Rp) #maybe normalise the rp vectors
 D3Paths = []
 
 #diff eq solver
@@ -252,7 +112,7 @@ ax = fig.add_subplot(111)
 for condition in Initial_Conditions:
     Path = []
     delta = 0.01
-    for i in range(5000):
+    for i in range(10000):
         # print(R)
         Path.append(condition[0].copy())
         for c in range(len(second_Ds)):
