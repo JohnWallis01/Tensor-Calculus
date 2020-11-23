@@ -14,8 +14,8 @@ v = Function('v')(t)
 
 c = Array([u,v])
 
-Geometery = Singularity_Map()
-Visulisation = Singularity_Map()
+Geometery = Sphere_Map()
+Visulisation = Sphere_Map()
 X= Geometery.X
 Y= Geometery.Y
 Z= Geometery.Z
@@ -24,15 +24,6 @@ PR_PC = []
 for coord in c:
     PR_PC.append(diff(X,coord)*N.i + diff(Y,coord)*N.j + diff(Z,coord)*N.k)
 PR_PC = Array(PR_PC)
-
-
-PR_PC2 = []
-for c1 in c:
-    R = []
-    for c2 in c:
-        R.append(simplify((diff(X,c1)*N.i + diff(Y,c1)*N.j + diff(Z,c1)*N.k).diff(c2)))
-    PR_PC2.append(R)
-PR_PC2 = Array(PR_PC2)
 
 
 #calculating metrix tensor
@@ -52,29 +43,22 @@ G_I = G.inv()
 pprint(G,use_unicode=False)
 
 
-#velcocity_acceleration dots (PR/PU dot PR2/PU2 ect.)    [c1,c2] c1 = [[]]
-V_Adots = []
-for c1 in PR_PC:
-    A1 = []
-    for c2 in PR_PC2:
-        A2 = []
-        for c3 in c2:
-            A2.append(c1.dot(c3))
-        A1.append(A2)
-    V_Adots.append(A1)
-V_Adots = simplify(Array(V_Adots))
 
-
+#using metric tensor to find christoffel symbols
 
 Gamma = MutableDenseNDimArray([[[0.0,0.0],[0.0,0.0]],[[0.0,0.0],[0.0,0.0]]])
-
 for k in range(len(c)):
     for i in range(len(c)):
         for j in range(len(c)):
             E = 0
-            for c1 in range(len(c)):
-                E += V_Adots[c1,i,j]*G_I.col(c1)[k]
+            for l in range(len(c)):
+                E += 0.5*G_I.row(k)[l]*((G.row(l)[i]).diff(c[j])+(G.row(j)[l]).diff(c[i])-(G.row(i)[j]).diff(c[l]))
             Gamma[i,j,k] = E
+
+print("\n")
+Gamma = simplify(Gamma)
+pprint(Gamma,use_unicode=False)
+
 eqs = []
 for k in range(len(c)):
     eq = c[k].diff(t).diff(t)
@@ -82,10 +66,6 @@ for k in range(len(c)):
         for j in range(len(c)):
             eq += Gamma[i,j,k]*c[i].diff(t)*c[j].diff(t)
     eqs.append(simplify(Eq(eq,0)))
-# print(dsolve(eqs, c))
-
-x = Function('x')(t)
-y = Function('y')(t)
 
 
 pprint(eqs,use_unicode=False)
@@ -115,7 +95,7 @@ ax = fig.add_subplot(111)
 for condition in Initial_Conditions:
     Path = []
     delta = 0.01
-    for i in range(10000):
+    for i in range(5000):
         # print(R)
         Path.append(condition[0].copy())
         for c in range(len(second_Ds)):
@@ -126,12 +106,9 @@ for condition in Initial_Conditions:
             break
     Path = np.array(Path)
     plt.plot(Path.T[0],Path.T[1])
-    # plt.polar(Path.T[1],Path.T[0])
     D3Paths.append([x(Path.T[0],Path.T[1]),y(Path.T[0],Path.T[1]),z(Path.T[0],Path.T[1])])
     ax.set_aspect('equal')
 
-# circle=plt.Circle((0,0),np.sqrt(2),color=(0.3,0,0,0.2))
-# ax.add_artist(circle)
 plt.show()
 
 
