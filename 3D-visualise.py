@@ -6,7 +6,7 @@ from D3Geometries import *
 N=50
 
 
-Graph = Sphere_Map()
+Graph = Eliptical_Paraboloid_Map()
 
 
 u = Graph.c1

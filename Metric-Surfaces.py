@@ -20,7 +20,7 @@ c = Array([u,v])
 
 #self defined metric
 #-------------------
-G = [[1,0],[0,1]]
+G = [[1,0],[0,sin(u)**2]]
 G = Matrix(G)
 G = simplify(G)
 G_I = G.inv()
@@ -28,10 +28,15 @@ pprint(G,use_unicode=False)
 #-----------------
 
 
-#g
+#g_ij = d_i(s).d_j(s)
 
 
 
+
+
+
+
+#
 Equations = []
 for i in range(len(c)):
     for j in range(len(c)):
@@ -42,12 +47,12 @@ for Equation in Equations:
 
 
 def Format(Equations):
-    for Equation in Equations:
+    for Equation in (Equations[0:2]+[Equations[3]]):
         print("\\begin{equation}")
         print("\\begin{split}")
         print(latex(Equation))
         print("\\end{split}")
         print("\\end{equation}")
 
-#https://latexbase.com/d/1eddf075-bab4-4202-bfa7-278500a3d7a8
+#https://latexbase.com
 Format(Equations)

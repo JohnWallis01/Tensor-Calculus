@@ -14,8 +14,8 @@ v = Function('v')(t)
 
 c = Array([u,v])
 
-Geometery = Sphere_Map()
-Visulisation = Sphere_Map()
+Geometery = Eliptical_Paraboloid_Map()
+Visulisation = Eliptical_Paraboloid_Map()
 X= Geometery.X
 Y= Geometery.Y
 Z= Geometery.Z

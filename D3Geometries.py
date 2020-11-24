@@ -8,7 +8,7 @@ v = Function('v')(t)
 N=50
 # Geometrical Maps
 class Sphere_Map():
-    """docstring for Sphere."""
+
 
     def __init__(self):
         super(Sphere_Map, self).__init__()
@@ -27,7 +27,7 @@ class Sphere_Map():
         return False
 
 class Sphere_Map_XY():
-    """docstring for Sphere."""
+
 
     def __init__(self):
         super(Sphere_Map_XY, self).__init__()
@@ -49,7 +49,7 @@ class Sphere_Map_XY():
             return False
 
 class Plane_Map():
-    """docstring for Plane_Map."""
+
 
     def __init__(self):
         super(Plane_Map, self).__init__()
@@ -68,7 +68,7 @@ class Plane_Map():
         return False
 
 class Exotic_Map():
-    """docstring for Exotic_Map."""
+
 
     def __init__(self):
         super(Exotic_Map, self).__init__()
@@ -90,7 +90,7 @@ class Exotic_Map():
             return False
 
 class Hump_Map():
-    """docstring for Exotic_Map."""
+
 
     def __init__(self):
         super(Hump_Map, self).__init__()
@@ -112,7 +112,7 @@ class Hump_Map():
             return False
 
 class Torus_Map(object):
-    """docstring for Torus."""
+
 
     def __init__(self):
         super(Torus_Map, self).__init__()
@@ -131,7 +131,7 @@ class Torus_Map(object):
         return False
 
 class Saddle_Map(object):
-    """docstring for Saddle_Map."""
+
 
     def __init__(self):
         super(Saddle_Map, self).__init__()
@@ -153,7 +153,7 @@ class Saddle_Map(object):
             return False
 
 class Mobeius_Map(object):
-    """docstring for Mobeius_Map."""
+
 
     def __init__(self, arg):
         super(Mobeius_Map, self).__init__()
@@ -175,7 +175,7 @@ class Mobeius_Map(object):
             return False
 
 class Hyperboloid_Map(object):
-    """docstring for Torus."""
+
 
     def __init__(self):
         super(Hyperboloid_Map, self).__init__()
@@ -198,7 +198,7 @@ class Hyperboloid_Map(object):
 
 
 class Singularity_Map(object):
-    """docstring for Torus."""
+
 
     def __init__(self):
         super(Singularity_Map, self).__init__()
@@ -215,6 +215,28 @@ class Singularity_Map(object):
          return -1/np.sqrt(u**2+v**2)
     def boundary(self,condition):
         if condition[0][0] > 3 or condition[0][0] < -3 or condition[0][1] > 3 or condition[0][1] < -3:
+            return True
+        else:
+            return False
+
+class Eliptical_Paraboloid_Map(object):
+
+
+    def __init__(self):
+        super(Eliptical_Paraboloid_Map, self).__init__()
+        self.X = (u**2-4)*sin(v)
+        self.Y = (u**2-4)*cos(v)
+        self.Z = u
+        self.c1 = np.linspace(-2,2,N)
+        self.c2 = np.linspace(0,2*np.pi,N)
+    def x(self,u,v):
+         return  (u**2-4)*np.sin(v)
+    def y(self,u,v):
+         return (u**2-4)*np.cos(v)
+    def z(self,u,v):
+         return u
+    def boundary(self,condition):
+        if condition[0][0] > 4 or condition[0][0] < -4:
             return True
         else:
             return False
