@@ -14,8 +14,8 @@ v = Function('v')(t)
 
 c = Array([u,v])
 
-Geometery = Eliptical_Paraboloid_Map()
-Visulisation = Eliptical_Paraboloid_Map()
+Geometery = Boys_Surface_Map()
+Visulisation = Boys_Surface_Map()
 X= Geometery.X
 Y= Geometery.Y
 Z= Geometery.Z
@@ -41,7 +41,6 @@ G = simplify(G)
 G_I = G.inv()
 
 pprint(G,use_unicode=False)
-
 
 
 #using metric tensor to find christoffel symbols
@@ -86,7 +85,7 @@ v = Visulisation.c2
 u,v = np.meshgrid(u,v)
 
 
-Initial_Conditions = [[np.array([0.2,0.3]),np.array([0.2,0.1])],[np.array([1.0,0.5]),np.array([-0.85,-0.5])]] #(R,Rp) #maybe normalise the rp vectors
+Initial_Conditions = [[np.array([1.0,0.3]),np.array([-0.4,-0.2])],[np.array([1.0,0.5]),np.array([-0.5,-0.6])],[np.array([1.2,-0.5]),np.array([0.5,-0.6])]] #(R,Rp) #maybe normalise the rp vectors
 D3Paths = []
 
 #diff eq solver

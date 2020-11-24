@@ -6,7 +6,7 @@ from D3Geometries import *
 N=50
 
 
-Graph = Eliptical_Paraboloid_Map()
+Graph = Boys_Surface_Map()
 
 
 u = Graph.c1
@@ -22,7 +22,7 @@ z = Graph.z(u,v)
 
 fig,axes = plt.subplots(subplot_kw=dict(projection='3d'))
 ax = axes
-ax.plot_surface(x, y, z)
+ax.plot_surface(x, y, z)#,color=(0,1,0,0.15))
 
 
 max_range = np.array([x.max()-x.min(), y.max()-y.min(), z.max()-z.min()]).max() / 2.0

@@ -130,11 +130,11 @@ class Torus_Map(object):
     def boundary(self,condition):
         return False
 
-class Saddle_Map(object):
+class Hypbolic_Paraboloid_Map(object):
 
 
     def __init__(self):
-        super(Saddle_Map, self).__init__()
+        super(Hypbolic_Paraboloid_Map, self).__init__()
         self.X = u
         self.Y = v
         self.Z = (u*u -v*v)/50
@@ -236,7 +236,150 @@ class Eliptical_Paraboloid_Map(object):
     def z(self,u,v):
          return u
     def boundary(self,condition):
-        if condition[0][0] > 4 or condition[0][0] < -4:
+        if condition[0][0] > 2 or condition[0][0] < -2:
+            return True
+        else:
+            return False
+
+
+class Distortion_Map(object):
+
+    def __init__(self):
+        super(Distortion_Map, self).__init__()
+        self.X = u
+        self.Y = v
+        self.Z = -1/(exp((u)**2+(v)**2))
+        self.c1 = np.linspace(-3,3,N)
+        self.c2 = np.linspace(-3,3,N)
+    def x(self,u,v):
+         return u
+    def y(self,u,v):
+         return v
+    def z(self,u,v):
+         return -1/(np.exp((u)**2+(v)**2))
+    def boundary(self,condition):
+        if condition[0][0] > 3 or condition[0][0] < -3 or condition[0][1] > 3 or condition[0][1] < -3:
+            return True
+        else:
+            return False
+
+
+class Multi_Distortion_Map(object):
+#this needs some performance improvements
+    def __init__(self):
+        super(Multi_Distortion_Map, self).__init__()
+        self.X = u
+        self.Y = v
+        self.Z = simplify(-1/(exp((u-2)**2+(v-2)**2))-1/(exp((u+2)**2+(v+2)**2))-1/(exp((u+2)**2+(v-2)**2))-1/(exp((u-2)**2+(v+2)**2)))
+        self.c1 = np.linspace(-5,5,N)
+        self.c2 = np.linspace(-5,5,N)
+    def x(self,u,v):
+         return u
+    def y(self,u,v):
+         return v
+    def z(self,u,v):
+        return -1/(np.exp((u-2)**2+(v-2)**2))-1/(np.exp((u+2)**2+(v+2)**2))-1/(np.exp((u+2)**2+(v-2)**2))-1/(np.exp((u-2)**2+(v+2)**2))
+    def boundary(self,condition):
+        if condition[0][0] > 5 or condition[0][0] < -5 or condition[0][1] > 5 or condition[0][1] < -5:
+            return True
+        else:
+            return False
+
+class Saddle_Map(object):
+    def __init__(self):
+        super(Saddle_Map, self).__init__()
+        self.X = u
+        self.Y = v
+        self.Z = u*v/50
+        self.c1 = np.linspace(-25,25,N)
+        self.c2 = np.linspace(-25,25,N)
+    def x(self,u,v):
+         return u
+    def y(self,u,v):
+         return v
+    def z(self,u,v):
+        return u*v/50
+    def boundary(self,condition):
+        if condition[0][0]**2 + condition[0][1]**2 > 10000:
+            return True
+        else:
+            return False
+
+
+class D1_Wave_Map(object):
+    def __init__(self):
+        super(D1_Wave_Map, self).__init__()
+        self.X = u
+        self.Y = v
+        self.Z = sin(u)
+        self.c1 = np.linspace(-5,5,N)
+        self.c2 = np.linspace(-5,5,N)
+    def x(self,u,v):
+         return u
+    def y(self,u,v):
+         return v
+    def z(self,u,v):
+        return np.sin(u)
+    def boundary(self,condition):
+        if condition[0][0] > 5 or condition[0][0] < -5 or condition[0][1] > 5 or condition[0][1] < -5:
+            return True
+        else:
+            return False
+
+
+class Spherical_Wave_Map(object):
+    def __init__(self):
+        super(Spherical_Wave_Map, self).__init__()
+        self.X = u*cos(v)
+        self.Y = u*sin(v)
+        self.Z = sin(u)
+        self.c1 = np.linspace(0,10,N)
+        self.c2 = np.linspace(0,np.pi*2,N)
+    def x(self,u,v):
+         return u*np.cos(v)
+    def y(self,u,v):
+         return u*np.sin(v)
+    def z(self,u,v):
+        return np.sin(u)
+    def boundary(self,condition):
+        if condition[0][0] > 10 or condition[0][0] <-0:
+            return True
+        else:
+            return False
+
+class Boys_Surface_Map(object):
+    #this is never gonna find its own metric tensor
+    def __init__(self):
+        super(Boys_Surface_Map, self).__init__()
+        w = u*exp(v*I)
+        self.g1 = (-3/2)*im(w*(1-w**4)/(w**6+sqrt(5)*w**3-1))
+        self.g2 = (-3/2)*re(w*(1+w**4)/(w**6+sqrt(5)*w**3-1))
+        self.g3 = im((1+w**6)/(w**6+sqrt(5)*w**3-1))-(1/2)
+        self.X = self.g1/(self.g1**2+self.g2**2+self.g3**2)
+        self.Y = self.g2/(self.g1**2+self.g2**2+self.g3**2)
+        self.Z = self.g3/(self.g1**2+self.g2**2+self.g3**2)
+        self.c1 = np.linspace(0,1,N) # u is radius
+        self.c2 = np.linspace(0,np.pi*2,N) # v is angle
+    def x(self,u,v):
+         w = u*np.exp(1j*v)
+         g1 = (-3/2)*np.imag(w*(1-w**4)/(w**6+np.sqrt(5)*w**3-1))
+         g2 = (-3/2)*np.real(w*(1+w**4)/(w**6+np.sqrt(5)*w**3-1))
+         g3 = np.imag((1+w**6)/(w**6+np.sqrt(5)*w**3-1))-(1/2)
+         return g1/(g1**2+g2**2+g3**2)
+    def y(self,u,v):
+          w = u*np.exp(1j*v)
+          g1 = (-3/2)*np.imag(w*(1-w**4)/(w**6+np.sqrt(5)*w**3-1))
+          g2 = (-3/2)*np.real(w*(1+w**4)/(w**6+np.sqrt(5)*w**3-1))
+          g3 = np.imag((1+w**6)/(w**6+np.sqrt(5)*w**3-1))-(1/2)
+          return g2/(g1**2+g2**2+g3**2)
+    def z(self,u,v):
+          w = u*np.exp(1j*v)
+          g1 = (-3/2)*np.imag(w*(1-w**4)/(w**6+np.sqrt(5)*w**3-1))
+          g2 = (-3/2)*np.real(w*(1+w**4)/(w**6+np.sqrt(5)*w**3-1))
+          g3 = np.imag((1+w**6)/(w**6+np.sqrt(5)*w**3-1))-(1/2)
+          return g3/(g1**2+g2**2+g3**2)
+    def boundary(self,condition):
+        if condition[0][0] > 1 or condition[0][0] <0:
             return True
         else:
             return False
