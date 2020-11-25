@@ -383,3 +383,22 @@ class Boys_Surface_Map(object):
             return True
         else:
             return False
+
+
+class Klein_Surface_Map(object):
+    #this is never gonna find its own metric tensor
+    def __init__(self):
+        super(Klein_Surface_Map, self).__init__()
+        self.X = (2+1*cos(u))*cos(v)
+        self.Y = (2+1*cos(u))*sin(v)
+        self.Z = 1*sin(u)*cos(v/2)
+        self.c1 = np.linspace(0, 2*np.pi, N)
+        self.c2 = np.linspace(0, 2*np.pi, N)
+    def x(self,u,v):
+         return (2+1*np.cos(u))*np.cos(v)
+    def y(self,u,v):
+         return (2+1*np.cos(u))*np.sin(v)
+    def z(self,u,v):
+         return 1*np.sin(u)*np.cos(v/2)
+    def boundary(self,condition):
+        return False

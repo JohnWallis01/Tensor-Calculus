@@ -6,7 +6,7 @@ from D3Geometries import *
 N=50
 
 
-Graph = Boys_Surface_Map()
+Graph = Klein_Surface_Map()
 
 
 u = Graph.c1

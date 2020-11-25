@@ -14,8 +14,8 @@ v = Function('v')(t)
 
 c = Array([u,v])
 
-Geometery = Boys_Surface_Map()
-Visulisation = Boys_Surface_Map()
+Geometery = Klein_Surface_Map()
+Visulisation = Klein_Surface_Map()
 X= Geometery.X
 Y= Geometery.Y
 Z= Geometery.Z
